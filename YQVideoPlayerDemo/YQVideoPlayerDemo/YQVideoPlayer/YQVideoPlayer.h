@@ -31,6 +31,6 @@
 /**
  *  旋转屏幕(返回是否需要隐藏状态栏。看需要)
  */
--(BOOL)rotationScreen:(UIInterfaceOrientation)interfaceOrientation;
+-(void)rotationScreen:(UIInterfaceOrientation)interfaceOrientation;
 
 @end

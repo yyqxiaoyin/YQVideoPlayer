@@ -101,12 +101,12 @@
     }];
     
     [self.bottomToolView didClickProgressView:^(CGFloat value) {
-       
+        
         [weakSelf seekToTimeValue:value];
         
     }];
     [self.bottomToolView didDragSilder:^(CGFloat value) {
-       
+        
         [weakSelf seekToTimeValue:value];
     }];
     
@@ -216,7 +216,7 @@
         
         [weakself.bottomToolView setCurrentTimeString:[weakself secondToTime:currentPlayTime]];
         [weakself.bottomToolView setProgress:currentPlayTime];
-
+        
     }];
 }
 
@@ -260,7 +260,10 @@
 }
 
 -(void)fullScreen:(CGFloat )rotation{
-
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
+#pragma clang diagnostic pop
     CGRect newFrame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
     [UIView animateWithDuration:0.3 animations:^{
         CATransform3D transform = CATransform3DMakeRotation(rotation, 0, 0, 1.0);
@@ -277,29 +280,30 @@
     self.isFullScreen = YES;
 }
 
--(BOOL)rotationScreen:(UIInterfaceOrientation)interfaceOrientation{
-
+-(void)rotationScreen:(UIInterfaceOrientation)interfaceOrientation{
+    
     switch (interfaceOrientation) {
         case UIInterfaceOrientationLandscapeLeft:
             [self fullScreen:-M_PI/2];
-            return YES;
             break;
         case UIInterfaceOrientationLandscapeRight:
             [self fullScreen:M_PI/2];
-            return YES;
             break;
         case UIInterfaceOrientationPortrait:
             [self smallScreen];
-            return NO;
             break;
         default:
             break;
     }
-    return NO;
 }
 
 -(void)smallScreen{
     if (_isFullScreen) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+#pragma clang diagnostic pop
+        
         [UIView animateWithDuration:0.3 animations:^{
             self.layer.transform = CATransform3DIdentity;
             self.frame = self.oldFrame;
@@ -326,7 +330,7 @@
 
 #pragma mark - 隐藏底部工具栏
 -(void)hideBottomToolView:(BOOL)animate{
-
+    
     [UIView animateWithDuration:0.3 animations:^{
         self.bottomToolView.alpha = 0;
     } completion:^(BOOL finished) {

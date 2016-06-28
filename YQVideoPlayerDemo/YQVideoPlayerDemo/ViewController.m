@@ -38,25 +38,15 @@
     
 }
 
-- (BOOL)prefersStatusBarHidden{
-    return _statusHiden;
-}
 -(void)onDeviceOrientationChange{
     UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
     UIInterfaceOrientation interfaceOrientation = (UIInterfaceOrientation)orientation;
     if (self.player==nil||self.player.superview==nil){
         return;
     }
-    
-   BOOL res =  [self.player rotationScreen:interfaceOrientation];
-    [self setStatusHiden:res];
+   [self.player rotationScreen:interfaceOrientation];
 }
 
--(void)setStatusHiden:(BOOL)statusHiden{
-
-    _statusHiden = statusHiden;
-    [self setNeedsStatusBarAppearanceUpdate];
-}
 
 
 
